@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oresciak</title>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
+      background: #000;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
+      cursor: default;
+    }
+
+    body {
+      position: relative;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background: #000;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
+      cursor: default;
+    }
+
+    .countdown {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      width: 100%;
+      max-width: 900px;
+      padding: 0 24px;
+      box-sizing: border-box;
+    }
+
+    .time {
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1.15;
+      margin: 0;
+    }
+
+    .snippet-mhm {
+      margin: 18px auto 0;
+      width: max-content;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      outline: none;
+    }
+
+    .snippet-mhm .bubble {
+      display: inline-flex;
+      align-items: center;
+      padding: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      backdrop-filter: none;
+      transition: none;
+      min-width: 0;
+    }
+
+    .snippet-mhm:hover .bubble,
+    .snippet-mhm:focus-visible .bubble {
+      transform: none;
+      box-shadow: none;
+      outline: none;
+    }
+
+    .snippet-mhm .label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: none;
+      box-shadow: none;
+      border: none;
+      padding: 8px 10px;
+    }
+
+    .snippet-mhm .seconds,
+    .snippet-mhm .duration {
+      display: none;
+    }
+
+    .snippet-mhm.playing .label {
+      color: #c57eff;
+    }
+
+    .site-brand {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+      z-index: 2;
+    }
+
+    .site-brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: block;
+    }
+
+    .site-brand span {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .release-banner {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: grid;
+      gap: 10px;
+      text-align: center;
+      width: min(100%, 900px);
+      padding: 0 24px;
+      box-sizing: border-box;
+      z-index: 1;
+    }
+
+    .release-banner .title {
+      margin: 0;
+      font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #f7f7f7;
+    }
+
+    .release-banner .links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .release-banner a {
+      color: #88b7ff;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+
+    .release-banner a:hover {
+      color: #c8d9ff;
+    }
+
+    .release-banner .spotify-wrap {
+      width: min(480px, 100%);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <a class="site-brand" href="https://open.spotify.com/artist/01fWghRtSEkoreCc7MBwMK?si=bLDuDhFaTYKOsSwRZ-hv7g" target="_blank" rel="noreferrer noopener">
+    <img src="https://i.ibb.co/Zpb8hdfv/icon-low-quality.png" alt="oresciak" />
+  </a>
+  <div class="release-banner">
+    <p class="title">ROSYJSKI PRZELOT OUT NOW</p>
+    <div class="links">
+      <a href="https://www.youtube.com/watch?v=jsyuCPmYh9c" target="_blank" rel="noreferrer noopener">youtube</a>
+      <a href="https://open.spotify.com/track/4mZVmiah2BBlAdIIwFKFMM?si=235ca434b3964f63" target="_blank" rel="noreferrer noopener">spotify</a>
+    </div>
+  </div>
+  <div class="countdown">
+    <h1 id="time" class="time">00:00:00:00</h1>
+    <div class="snippet-mhm" role="button" tabindex="0" aria-label="file_1">
+      <div class="bubble">
+        <span class="label">file_1</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const targetDate = new Date(2026, 8, 1, 0, 0, 0);
+    const timeEl = document.getElementById('time');
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        timeEl.textContent = '00:00:00:00';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      timeEl.textContent = `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    const snippet = document.querySelector('.snippet-mhm');
+    const audio = new Audio('https://files.catbox.moe/nlli5m.mp3');
+    audio.preload = 'auto';
+
+    function toggleSnippet() {
+      if (snippet.classList.contains('playing')) {
+        audio.pause();
+        audio.currentTime = 0;
+        snippet.classList.remove('playing');
+        return;
+      }
+
+      snippet.classList.add('playing');
+      audio.play().catch(() => {
+        snippet.classList.remove('playing');
+      });
+    }
+
+    audio.addEventListener('ended', function () {
+      snippet.classList.remove('playing');
+    });
+
+    audio.addEventListener('pause', function () {
+      if (!audio.currentTime || audio.currentTime === audio.duration) {
+        snippet.classList.remove('playing');
+      }
+    });
+
+    snippet.addEventListener('click', toggleSnippet);
+    snippet.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggleSnippet();
+      }
+    });
+
+    document.addEventListener('contextmenu', function (event) {
+      event.preventDefault();
+    });
+
+    document.addEventListener('selectstart', function (event) {
+      event.preventDefault();
+    });
+
+    document.addEventListener('dragstart', function (event) {
+      event.preventDefault();
+    });
+
+    document.addEventListener('keydown', function (event) {
+      const blockedKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Space'];
+      if (blockedKeys.includes(event.key)) {
+        event.preventDefault();
+      }
+    });
+
+    document.addEventListener('wheel', function (event) {
+      event.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener('touchmove', function (event) {
+      event.preventDefault();
+    }, { passive: false });
+  </script>
+</body>
+</html>
