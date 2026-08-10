@@ -164,9 +164,34 @@
       border-radius: 16px;
       overflow: hidden;
     }
+
+    .background-secret {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.018;
+      font-size: clamp(2rem, 10vw, 7rem);
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      line-height: 0.95;
+      text-transform: lowercase;
+      color: #fff;
+      text-align: center;
+      transform: rotate(-12deg) scale(1.1);
+      filter: blur(0.4px);
+      user-select: none;
+      -webkit-user-select: none;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
+  <div class="background-secret" aria-hidden="true">quick death jebac ecstasy</div>
   <div class="release-banner">
     <p class="title">ROSYJSKI PRZELOT OUT NOW</p>
     <div class="links">
