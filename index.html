@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
   <title>oresciak</title>
   <style>
     :root {
@@ -17,7 +20,7 @@
       overscroll-behavior: none;
       background: #000;
       color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: 'VT323', monospace;
       user-select: none;
       -webkit-user-select: none;
       -webkit-touch-callout: none;
@@ -31,9 +34,9 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      background: #000;
-      color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at top center, rgba(130, 76, 255, 0.14), transparent 24%), radial-gradient(circle at 15% 18%, rgba(153, 80, 255, 0.10), transparent 14%), #05000d;
+      color: #f5f0ff;
+      font-family: 'VT323', monospace;
       user-select: none;
       -webkit-user-select: none;
       -webkit-touch-callout: none;
@@ -58,62 +61,83 @@
     }
 
     .time {
-      font-size: clamp(2rem, 6vw, 4.5rem);
+      font-size: clamp(3rem, 10vw, 6.3rem);
       font-weight: 700;
-      letter-spacing: 0.08em;
-      line-height: 1.15;
+      letter-spacing: 0.03em;
+      line-height: 1.02;
+      margin: 0;
+      color: #d7c0ff;
+      text-shadow: 0 0 30px rgba(160, 100, 255, 0.26);
+    }
+
+    .tracklist {
+      margin: 14px auto 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      text-align: left;
+      width: clamp(320px, 90vw, 720px);
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .tracklist-item {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      color: #e9dfff;
+      font-size: clamp(1.2rem, 2vw, 1.35rem);
+      letter-spacing: 0.02em;
+      line-height: 1.32;
+      padding: 0;
       margin: 0;
     }
 
-    .snippet-mhm {
-      margin: 18px auto 0;
-      width: max-content;
+    .tracklist-item span,
+    .tracklist-item a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .tracklist-item a {
+      color: #d199ff;
+      font-weight: 600;
+    }
+
+    .tracklist-item a:hover,
+    .tracklist-item a:focus-visible {
+      color: #f2deff;
+      outline: none;
+    }
+
+    .tracklist-number {
+      min-width: 2.4rem;
+      font-weight: 700;
+      color: #b7a0d4;
+      font-size: 1.15rem;
+    }
+
+    .tracklist-play {
       cursor: pointer;
       user-select: none;
       -webkit-user-select: none;
       outline: none;
     }
 
-    .snippet-mhm .bubble {
-      display: inline-flex;
-      align-items: center;
-      padding: 0;
-      background: transparent;
-      border: none;
-      box-shadow: none;
-      backdrop-filter: none;
-      transition: none;
-      min-width: 0;
+    .tracklist-play:hover .track-title,
+    .tracklist-play:focus-visible .track-title {
+      color: #f8d2ff;
     }
 
-    .snippet-mhm:hover .bubble,
-    .snippet-mhm:focus-visible .bubble {
-      transform: none;
-      box-shadow: none;
-      outline: none;
-    }
-
-    .snippet-mhm .label {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      color: #fff;
+    .tracklist-play .track-title {
+      color: #f2e8ff;
       font-weight: 700;
-      font-size: 1rem;
-      letter-spacing: 0.08em;
-      text-transform: none;
-      box-shadow: none;
-      border: none;
-      padding: 8px 10px;
     }
 
-    .snippet-mhm .seconds,
-    .snippet-mhm .duration {
-      display: none;
-    }
-
-    .snippet-mhm.playing .label {
+    .tracklist-play.playing .track-title {
       color: #c57eff;
     }
 
@@ -133,10 +157,11 @@
 
     .release-banner .title {
       margin: 0;
-      font-size: clamp(0.95rem, 1.8vw, 1.2rem);
-      letter-spacing: 0.18em;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      letter-spacing: 0.10em;
       text-transform: uppercase;
-      color: #f7f7f7;
+      color: #f5e7ff;
+      text-shadow: 0 0 15px rgba(173, 104, 255, 0.2);
     }
 
     .release-banner .links {
@@ -150,13 +175,19 @@
     .release-banner a {
       color: #88b7ff;
       text-decoration: none;
-      font-size: 0.95rem;
+      font-size: 1.05rem;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.04em;
+      outline: none;
+      box-shadow: none;
     }
 
-    .release-banner a:hover {
-      color: #c8d9ff;
+    .release-banner a:hover,
+    .release-banner a:focus,
+    .release-banner a:focus-visible {
+      color: #edddff;
+      outline: none;
+      box-shadow: none;
     }
 
     .release-banner .spotify-wrap {
@@ -174,16 +205,16 @@
       padding: 24px;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.018;
-      font-size: clamp(2rem, 10vw, 7rem);
+      opacity: 0.08;
+      font-size: clamp(2.5rem, 10vw, 8rem);
       font-weight: 900;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.18em;
       line-height: 0.95;
       text-transform: lowercase;
-      color: #fff;
+      color: rgba(209, 184, 255, 0.38);
       text-align: center;
-      transform: rotate(-12deg) scale(1.1);
-      filter: blur(0.4px);
+      transform: rotate(-12deg) scale(1.05);
+      filter: blur(0.75px);
       user-select: none;
       -webkit-user-select: none;
       white-space: nowrap;
@@ -191,7 +222,7 @@
   </style>
 </head>
 <body>
-  <div class="background-secret" aria-hidden="true">quick dose joint euphoriay</div>
+  <div class="background-secret" aria-hidden="true">quick dose joint euphoria</div>
   <div class="release-banner">
     <p class="title">ROSYJSKI PRZELOT OUT NOW</p>
     <div class="links">
@@ -201,11 +232,45 @@
   </div>
   <div class="countdown">
     <h1 id="time" class="time">00:00:00:00</h1>
-    <div class="snippet-mhm" role="button" tabindex="0" aria-label="file_1">
-      <div class="bubble">
-        <span class="label">file_1</span>
-      </div>
-    </div>
+    <ol class="tracklist" aria-label="tracklista">
+      <li class="tracklist-item">
+        <span class="tracklist-number">1.</span>
+        <button class="track-button" disabled data-src="https://example.com/track-1.mp3" aria-label="play track 1">▶</button>
+        <span class="track-title">???</span>
+      </li>
+      <li class="tracklist-item">
+        <span class="tracklist-number">2.</span>
+        <button class="track-button" disabled data-src="https://example.com/track-2.mp3" aria-label="play track 2">▶</button>
+        <span class="track-title">???</span>
+      </li>
+      <li class="tracklist-item">
+        <span class="tracklist-number">3.</span>
+        <button class="track-button" disabled data-src="https://example.com/track-3.mp3" aria-label="play track 3">▶</button>
+        <span class="track-title">???</span>
+      </li>
+      <li class="tracklist-item">
+        <span class="tracklist-number">4.</span>
+        <button class="track-button" disabled data-src="https://example.com/track-4.mp3" aria-label="play track 4">▶</button>
+        <span class="track-title">???</span>
+      </li>
+      <li class="tracklist-item">
+        <span class="tracklist-number">5.</span>
+        <button class="track-button play-toggle-5" data-src="https://files.catbox.moe/t37mzm.mp3" aria-label="play track 5">▶</button>
+        <span class="track-title">ROSYJSKI PRZELOT</span>
+        <a class="track-link" href="https://www.youtube.com/watch?v=jsyuCPmYh9c" target="_blank" rel="noreferrer noopener">youtube</a>
+        <a class="track-link" href="https://open.spotify.com/track/4mZVmiah2BBlAdIIwFKFMM?si=235ca434b3964f63" target="_blank" rel="noreferrer noopener">spotify</a>
+      </li>
+      <li class="tracklist-item">
+        <span class="tracklist-number">6.</span>
+        <button class="track-button play-toggle" data-src="https://files.catbox.moe/nlli5m.mp3" aria-label="play track 6">▶</button>
+        <span class="track-title">???</span>
+      </li>
+      <li class="tracklist-item">
+        <span class="tracklist-number">7.</span>
+        <button class="track-button" disabled data-src="https://example.com/track-7.mp3" aria-label="play track 7">▶</button>
+        <span class="track-title">???</span>
+      </li>
+    </ol>
   </div>
 
   <script>
@@ -232,41 +297,77 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    const snippet = document.querySelector('.snippet-mhm');
-    const audio = new Audio('https://files.catbox.moe/nlli5m.mp3');
+    const track5Button = document.querySelector('.track-button.play-toggle-5');
+    const track6Button = document.querySelector('.track-button.play-toggle');
+    const audio = new Audio(track6Button.dataset.src);
     audio.preload = 'auto';
 
-    function toggleSnippet() {
-      if (snippet.classList.contains('playing')) {
+    function resetPlayStates() {
+      [track5Button, track6Button].forEach(button => {
+        if (button) {
+          button.classList.remove('playing');
+          button.textContent = '▶';
+        }
+      });
+    }
+
+    function setAudioSource(srcButton) {
+      if (!srcButton) return;
+      audio.src = srcButton.dataset.src;
+    }
+
+    function toggleSnippet(button) {
+      if (!button) return;
+      const isPlaying = button.classList.contains('playing');
+      if (isPlaying) {
         audio.pause();
         audio.currentTime = 0;
-        snippet.classList.remove('playing');
+        resetPlayStates();
         return;
       }
 
-      snippet.classList.add('playing');
+      setAudioSource(button);
+      resetPlayStates();
+      button.classList.add('playing');
+      button.textContent = '❚❚';
       audio.play().catch(() => {
-        snippet.classList.remove('playing');
+        resetPlayStates();
       });
     }
 
     audio.addEventListener('ended', function () {
-      snippet.classList.remove('playing');
+      resetPlayStates();
     });
 
     audio.addEventListener('pause', function () {
       if (!audio.currentTime || audio.currentTime === audio.duration) {
-        snippet.classList.remove('playing');
+        resetPlayStates();
       }
     });
 
-    snippet.addEventListener('click', toggleSnippet);
-    snippet.addEventListener('keydown', function (event) {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        toggleSnippet();
-      }
-    });
+    if (track5Button) {
+      track5Button.addEventListener('click', function () {
+        toggleSnippet(track5Button);
+      });
+      track5Button.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          toggleSnippet(track5Button);
+        }
+      });
+    }
+
+    if (track6Button) {
+      track6Button.addEventListener('click', function () {
+        toggleSnippet(track6Button);
+      });
+      track6Button.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          toggleSnippet(track6Button);
+        }
+      });
+    }
 
     document.addEventListener('contextmenu', function (event) {
       event.preventDefault();
