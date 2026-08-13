@@ -245,7 +245,7 @@
       </li>
       <li class="tracklist-item">
         <span class="tracklist-number">3.</span>
-        <button class="track-button" disabled data-src="https://example.com/track-3.mp3" aria-label="play track 3">▶</button>
+        <button class="track-button play-toggle-3" data-src="https://files.catbox.moe/sbah8x.mp3" aria-label="play track 3">▶</button>
         <span class="track-title">???</span>
       </li>
       <li class="tracklist-item">
@@ -297,13 +297,14 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
+    const track3Button = document.querySelector('.track-button.play-toggle-3');
     const track5Button = document.querySelector('.track-button.play-toggle-5');
     const track6Button = document.querySelector('.track-button.play-toggle');
     const audio = new Audio(track6Button.dataset.src);
     audio.preload = 'auto';
 
     function resetPlayStates() {
-      [track5Button, track6Button].forEach(button => {
+      [track3Button, track5Button, track6Button].forEach(button => {
         if (button) {
           button.classList.remove('playing');
           button.textContent = '▶';
@@ -344,6 +345,18 @@
         resetPlayStates();
       }
     });
+
+    if (track3Button) {
+      track3Button.addEventListener('click', function () {
+        toggleSnippet(track3Button);
+      });
+      track3Button.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          toggleSnippet(track3Button);
+        }
+      });
+    }
 
     if (track5Button) {
       track5Button.addEventListener('click', function () {
