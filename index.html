@@ -166,6 +166,37 @@
       text-shadow: 0 0 15px rgba(173, 104, 255, 0.2);
     }
 
+    .reveal-control {
+      position: absolute;
+      top: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .reveal-button {
+      border: 1px solid rgba(202, 160, 255, 0.7);
+      background: rgba(20, 0, 32, 0.8);
+      color: #f0dfff;
+      font: inherit;
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 10px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .reveal-button:active,
+    .reveal-button.is-active {
+      transform: scale(0.97);
+      border-color: rgba(214, 142, 255, 1);
+      background: rgba(66, 19, 89, 0.9);
+    }
+
     .release-banner .links {
       display: flex;
       flex-direction: column;
@@ -230,27 +261,31 @@
     <p class="title">DRUGSTORY: OPENER</p>
   </div>
 
+  <div class="reveal-control">
+    <button id="revealAfterCountdown" class="reveal-button" type="button">hold to reveal</button>
+  </div>
+
   <div class="countdown">
     <h1 id="time" class="time">00:00:00:00</h1>
     <ol class="tracklist" aria-label="tracklista">
       <li class="tracklist-item">
         <span class="tracklist-number">1.</span>
-        <button class="track-button" disabled data-src="https://example.com/track-1.mp3" aria-label="play track 1">▶</button>
+        <button class="track-button" disabled data-src="https://files.catbox.moe/tmgm3z.mp3" aria-label="play track 1">▶</button>
         <span class="track-title">???</span>
       </li>
       <li class="tracklist-item">
         <span class="tracklist-number">2.</span>
-        <button class="track-button" disabled data-src="https://example.com/track-2.mp3" aria-label="play track 2">▶</button>
+        <button class="track-button" disabled data-src="https://files.catbox.moe/0oddii.mp3" aria-label="play track 2">▶</button>
         <span class="track-title">???</span>
       </li>
       <li class="tracklist-item">
         <span class="tracklist-number">3.</span>
-        <button class="track-button play-toggle-3" data-src="https://files.catbox.moe/sbah8x.mp3" aria-label="play track 3">▶</button>
+        <button class="track-button play-toggle-3" disabled data-src="https://files.catbox.moe/4z5k8n.mp3" aria-label="play track 3">▶</button>
         <span class="track-title">???</span>
       </li>
       <li class="tracklist-item">
         <span class="tracklist-number">4.</span>
-        <button class="track-button" disabled data-src="https://example.com/track-4.mp3" aria-label="play track 4">▶</button>
+        <button class="track-button" disabled data-src="https://files.catbox.moe/vo5i3m.mp3" aria-label="play track 4">▶</button>
         <span class="track-title">???</span>
       </li>
       <li class="tracklist-item">
@@ -262,12 +297,12 @@
       </li>
       <li class="tracklist-item">
         <span class="tracklist-number">6.</span>
-        <button class="track-button play-toggle" data-src="https://files.catbox.moe/nlli5m.mp3" aria-label="play track 6">▶</button>
+        <button class="track-button play-toggle" disabled data-src="https://files.catbox.moe/iwr18n.mp3" aria-label="play track 6">▶</button>
         <span class="track-title">???</span>
       </li>
       <li class="tracklist-item">
         <span class="tracklist-number">7.</span>
-        <button class="track-button" disabled data-src="https://example.com/track-7.mp3" aria-label="play track 7">▶</button>
+        <button class="track-button" disabled data-src="https://files.catbox.moe/gzps3x.mp3" aria-label="play track 7">▶</button>
         <span class="track-title">???</span>
       </li>
     </ol>
@@ -276,14 +311,49 @@
   <script>
     const targetDate = new Date(2026, 8, 1, 0, 0, 0);
     const timeEl = document.getElementById('time');
+    const revealButton = document.getElementById('revealAfterCountdown');
+    const trackButtons = document.querySelectorAll('.track-button');
+    const trackTitles = document.querySelectorAll('.track-title');
+    const normalTitles = ['???', '???', '???', '???', 'ROSYJSKI PRZELOT', '???', '???'];
+    const finalTitles = [
+      'na ciebie za późno',
+      'HOP HOP',
+      'nie słucham',
+      'zanaz',
+      'ROSYJSKI PRZELOT',
+      'mmhmm',
+      'załóżcie garnitury'
+    ];
+    let revealPreview = false;
+    let countdownExpired = false;
 
-    function updateCountdown() {
+    function applyTrackState() {
+      const shouldReveal = revealPreview || countdownExpired;
+      const shouldEnableButtons = shouldReveal;
+
+      trackButtons.forEach((button) => {
+        if (button.classList.contains('play-toggle-5')) {
+          button.disabled = false;
+          return;
+        }
+        button.disabled = !shouldEnableButtons;
+      });
+
+      trackTitles.forEach((titleEl, index) => {
+        const nextTitle = shouldReveal ? (finalTitles[index] || normalTitles[index]) : normalTitles[index];
+        titleEl.textContent = nextTitle;
+      });
+
+      timeEl.textContent = shouldReveal ? 'OUT NOW' : currentCountdownText();
+    }
+
+    function currentCountdownText() {
       const now = new Date();
       const diff = targetDate - now;
 
       if (diff <= 0) {
-        timeEl.textContent = '00:00:00:00';
-        return;
+        countdownExpired = true;
+        return 'OUT NOW';
       }
 
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -291,17 +361,48 @@
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
 
-      timeEl.textContent = `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      return `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        countdownExpired = true;
+        clearInterval(countdownInterval);
+      }
+
+      applyTrackState();
     }
 
     updateCountdown();
-    setInterval(updateCountdown, 1000);
+    const countdownInterval = setInterval(updateCountdown, 1000);
 
     const track3Button = document.querySelector('.track-button.play-toggle-3');
     const track5Button = document.querySelector('.track-button.play-toggle-5');
     const track6Button = document.querySelector('.track-button.play-toggle');
-    const audio = new Audio(track6Button.dataset.src);
+    const audio = new Audio(track5Button ? track5Button.dataset.src : (track6Button ? track6Button.dataset.src : ''));
     audio.preload = 'auto';
+
+    if (revealButton) {
+      const setRevealState = (isActive) => {
+        revealPreview = isActive;
+        revealButton.classList.toggle('is-active', isActive);
+        applyTrackState();
+      };
+
+      revealButton.addEventListener('pointerdown', () => setRevealState(true));
+      revealButton.addEventListener('pointerup', () => setRevealState(false));
+      revealButton.addEventListener('pointerleave', () => setRevealState(false));
+      revealButton.addEventListener('pointercancel', () => setRevealState(false));
+      revealButton.addEventListener('touchstart', (event) => {
+        event.preventDefault();
+        setRevealState(true);
+      }, { passive: false });
+      revealButton.addEventListener('touchend', () => setRevealState(false));
+      revealButton.addEventListener('touchcancel', () => setRevealState(false));
+    }
 
     function resetPlayStates() {
       [track3Button, track5Button, track6Button].forEach(button => {
@@ -318,7 +419,7 @@
     }
 
     function toggleSnippet(button) {
-      if (!button) return;
+      if (!button || button.disabled) return;
       const isPlaying = button.classList.contains('playing');
       if (isPlaying) {
         audio.pause();
@@ -346,41 +447,17 @@
       }
     });
 
-    if (track3Button) {
-      track3Button.addEventListener('click', function () {
-        toggleSnippet(track3Button);
+    document.querySelectorAll('.track-button').forEach(button => {
+      button.addEventListener('click', function () {
+        toggleSnippet(button);
       });
-      track3Button.addEventListener('keydown', function (event) {
+      button.addEventListener('keydown', function (event) {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
-          toggleSnippet(track3Button);
+          toggleSnippet(button);
         }
       });
-    }
-
-    if (track5Button) {
-      track5Button.addEventListener('click', function () {
-        toggleSnippet(track5Button);
-      });
-      track5Button.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          toggleSnippet(track5Button);
-        }
-      });
-    }
-
-    if (track6Button) {
-      track6Button.addEventListener('click', function () {
-        toggleSnippet(track6Button);
-      });
-      track6Button.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          toggleSnippet(track6Button);
-        }
-      });
-    }
+    });
 
     document.addEventListener('contextmenu', function (event) {
       event.preventDefault();
