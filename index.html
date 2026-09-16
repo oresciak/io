@@ -5,486 +5,213 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-  <title>oresciak</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  <title>DRUGSTORY OPENER OUT NOW</title>
   <style>
     :root {
       color-scheme: dark;
+      --bg-dark: rgba(9, 6, 13, 0.82);
+      --text: #f2ecff;
+      --muted: rgba(242, 236, 255, 0.72);
+      --accent: #f6d1ff;
+      --shadow: rgba(10, 5, 18, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     html, body {
       margin: 0;
       width: 100%;
-      height: 100%;
+      min-height: 100%;
+      background: #030308;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
       overflow: hidden;
-      overscroll-behavior: none;
-      background: #000;
-      color: #fff;
-      font-family: 'VT323', monospace;
-      user-select: none;
-      -webkit-user-select: none;
-      -webkit-touch-callout: none;
-      -webkit-tap-highlight-color: transparent;
-      cursor: default;
     }
 
     body {
       position: relative;
       min-height: 100vh;
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      background: radial-gradient(circle at top center, rgba(130, 76, 255, 0.14), transparent 24%), radial-gradient(circle at 15% 18%, rgba(153, 80, 255, 0.10), transparent 14%), #05000d;
-      color: #f5f0ff;
-      font-family: 'VT323', monospace;
+      background: #030308;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
       user-select: none;
       -webkit-user-select: none;
-      -webkit-touch-callout: none;
-      -webkit-tap-highlight-color: transparent;
       cursor: default;
     }
 
-    .countdown {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+    .background-video {
+      position: fixed;
+      inset: 0;
       width: 100%;
-      max-width: 900px;
-      padding: 0 24px;
-      box-sizing: border-box;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.95) contrast(1.08);
+      background: #000;
+      z-index: 0;
     }
 
-    .time {
-      font-size: clamp(3rem, 10vw, 6.3rem);
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      line-height: 1.02;
-      margin: 0;
-      color: #d7c0ff;
-      text-shadow: 0 0 30px rgba(160, 100, 255, 0.26);
+    .background-video::-webkit-media-controls {
+      display: none !important;
     }
 
-    .tracklist {
-      margin: 14px auto 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 10px;
-      text-align: left;
-      width: clamp(320px, 90vw, 720px);
-      max-width: 100%;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-    }
-
-    .tracklist-item {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      color: #e9dfff;
-      font-size: clamp(1.2rem, 2vw, 1.35rem);
-      letter-spacing: 0.02em;
-      line-height: 1.32;
-      padding: 0;
-      margin: 0;
-    }
-
-    .tracklist-item span,
-    .tracklist-item a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .tracklist-item a {
-      color: #d199ff;
-      font-weight: 600;
-    }
-
-    .tracklist-item a:hover,
-    .tracklist-item a:focus-visible {
-      color: #f2deff;
-      outline: none;
-    }
-
-    .tracklist-number {
-      min-width: 2.4rem;
-      font-weight: 700;
-      color: #b7a0d4;
-      font-size: 1.15rem;
-    }
-
-    .tracklist-play {
-      cursor: pointer;
-      user-select: none;
-      -webkit-user-select: none;
-      outline: none;
-    }
-
-    .tracklist-play:hover .track-title,
-    .tracklist-play:focus-visible .track-title {
-      color: #f8d2ff;
-    }
-
-    .tracklist-play .track-title {
-      color: #f2e8ff;
-      font-weight: 700;
-    }
-
-    .tracklist-play.playing .track-title {
-      color: #c57eff;
-    }
-
-    .release-banner {
-      position: absolute;
-      top: 35px;
-      left: 0;
-      right: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      width: 100%;
-      padding: 0 24px;
-      box-sizing: border-box;
+    .hero {
+      position: relative;
       z-index: 1;
-    }
-
-    .release-banner .title {
-      margin: 0;
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      letter-spacing: 0.10em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 28px 32px 40px;
       text-transform: uppercase;
-      color: #f5e7ff;
-      text-shadow: 0 0 15px rgba(173, 104, 255, 0.2);
     }
 
-    .reveal-control {
+    .video-shell {
+      position: relative;
+      width: min(54vw, 720px);
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.18);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    }
+
+    .video-shell video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      background: #000;
+    }
+
+    .video-shell video::-webkit-media-controls {
+      display: none !important;
+    }
+
+    .video-shell video::-webkit-media-controls-panel {
+      display: none !important;
+    }
+
+    .video-shell video::-webkit-media-controls-enclosure {
+      display: none !important;
+    }
+
+    .video-shell video::-webkit-media-controls-start-playback-button {
+      display: none !important;
+    }
+
+    .video-shell .toggle {
       position: absolute;
-      top: 120px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
+      inset: 50% auto auto 50%;
+      transform: translate(-50%, -50%);
+      width: 76px;
+      height: 76px;
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.95);
+      cursor: pointer;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      opacity: 0.94;
+    }
+
+    .video-shell .toggle:hover,
+    .video-shell .toggle:focus-visible {
+      opacity: 1;
+      outline: none;
+    }
+
+    .video-shell .toggle:active {
+      transform: translate(-50%, -50%) scale(0.96);
+    }
+
+    .video-shell .toggle::before {
+      content: "";
+      display: block;
+      width: 18px;
+      height: 32px;
+      border: none;
+      margin-left: 0;
+      background: linear-gradient(to right, rgba(255,255,255,0.95) 0 33%, rgba(255,255,255,0.95) 33% 66%, rgba(255,255,255,0.95) 66% 100%);
+      border-radius: 2px;
+    }
+
+    .video-shell .toggle.is-playing {
       opacity: 0;
       pointer-events: none;
     }
 
-    .reveal-button {
-      border: 1px solid rgba(202, 160, 255, 0.7);
-      background: rgba(20, 0, 32, 0.8);
-      color: #f0dfff;
-      font: inherit;
-      font-size: 0.9rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 10px 18px;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-    }
-
-    .reveal-button:active,
-    .reveal-button.is-active {
-      transform: scale(0.97);
-      border-color: rgba(214, 142, 255, 1);
-      background: rgba(66, 19, 89, 0.9);
-    }
-
-    .release-banner .links {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .release-banner a {
-      color: #88b7ff;
-      text-decoration: none;
-      font-size: 1.05rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      outline: none;
-      box-shadow: none;
-    }
-
-    .release-banner a:hover,
-    .release-banner a:focus,
-    .release-banner a:focus-visible {
-      color: #edddff;
-      outline: none;
-      box-shadow: none;
-    }
-
-    .release-banner .spotify-wrap {
-      width: min(480px, 100%);
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .background-secret {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.08;
-      font-size: clamp(2.5rem, 10vw, 8rem);
-      font-weight: 900;
-      letter-spacing: 0.18em;
-      line-height: 0.95;
-      text-transform: lowercase;
-      color: rgba(209, 184, 255, 0.38);
-      text-align: center;
-      transform: rotate(-12deg) scale(1.05);
-      filter: blur(0.75px);
-      user-select: none;
-      -webkit-user-select: none;
-      white-space: nowrap;
+    .video-shell .toggle.is-paused::before {
+      width: 0;
+      height: 0;
+      border-top: 18px solid transparent;
+      border-bottom: 18px solid transparent;
+      border-left: 28px solid rgba(255, 255, 255, 0.95);
+      margin-left: 8px;
+      background: transparent;
+      border-radius: 0;
     }
   </style>
 </head>
 <body>
-  <div class="background-secret" aria-hidden="true">quick dose joint euphoria</div>
-  
-  <div class="release-banner">
-    <p class="title">DRUGSTORY: OPENER</p>
-  </div>
+  <video class="background-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="https://files.catbox.moe/5l8h2a.mp4" type="video/mp4" />
+  </video>
 
-  <div class="reveal-control">
-    <button id="revealAfterCountdown" class="reveal-button" type="button">hold to reveal</button>
-  </div>
-
-  <div class="countdown">
-    <h1 id="time" class="time">00:00:00:00</h1>
-    <ol class="tracklist" aria-label="tracklista">
-      <li class="tracklist-item">
-        <span class="tracklist-number">1.</span>
-        <button class="track-button" disabled data-src="https://files.catbox.moe/tmgm3z.mp3" aria-label="play track 1">▶</button>
-        <span class="track-title">???</span>
-      </li>
-      <li class="tracklist-item">
-        <span class="tracklist-number">2.</span>
-        <button class="track-button" disabled data-src="https://files.catbox.moe/0oddii.mp3" aria-label="play track 2">▶</button>
-        <span class="track-title">???</span>
-      </li>
-      <li class="tracklist-item">
-        <span class="tracklist-number">3.</span>
-        <button class="track-button play-toggle-3" disabled data-src="https://files.catbox.moe/4z5k8n.mp3" aria-label="play track 3">▶</button>
-        <span class="track-title">???</span>
-      </li>
-      <li class="tracklist-item">
-        <span class="tracklist-number">4.</span>
-        <button class="track-button" disabled data-src="https://files.catbox.moe/vo5i3m.mp3" aria-label="play track 4">▶</button>
-        <span class="track-title">???</span>
-      </li>
-      <li class="tracklist-item">
-        <span class="tracklist-number">5.</span>
-        <button class="track-button play-toggle-5" data-src="https://files.catbox.moe/t37mzm.mp3" aria-label="play track 5">▶</button>
-        <span class="track-title">ROSYJSKI PRZELOT</span>
-        <a class="track-link" href="https://www.youtube.com/watch?v=jsyuCPmYh9c" target="_blank" rel="noreferrer noopener">youtube</a>
-        <a class="track-link" href="https://open.spotify.com/track/4mZVmiah2BBlAdIIwFKFMM?si=235ca434b3964f63" target="_blank" rel="noreferrer noopener">spotify</a>
-      </li>
-      <li class="tracklist-item">
-        <span class="tracklist-number">6.</span>
-        <button class="track-button play-toggle" disabled data-src="https://files.catbox.moe/iwr18n.mp3" aria-label="play track 6">▶</button>
-        <span class="track-title">???</span>
-      </li>
-      <li class="tracklist-item">
-        <span class="tracklist-number">7.</span>
-        <button class="track-button" disabled data-src="https://files.catbox.moe/gzps3x.mp3" aria-label="play track 7">▶</button>
-        <span class="track-title">???</span>
-      </li>
-    </ol>
-  </div>
+  <main class="hero" aria-label="drugstory opener release">
+    <div class="video-shell">
+      <video id="releaseVideo" playsinline preload="auto">
+        <source src="https://files.catbox.moe/iw6t7g.mp4" type="video/mp4" />
+      </video>
+      <button class="toggle" id="videoToggle" type="button" aria-label="play or pause video"></button>
+    </div>
+  </main>
 
   <script>
-    const targetDate = new Date(2026, 8, 1, 0, 0, 0);
-    const timeEl = document.getElementById('time');
-    const revealButton = document.getElementById('revealAfterCountdown');
-    const trackButtons = document.querySelectorAll('.track-button');
-    const trackTitles = document.querySelectorAll('.track-title');
-    const normalTitles = ['???', '???', '???', '???', 'ROSYJSKI PRZELOT', '???', '???'];
-    const finalTitles = [
-      'na ciebie za późno',
-      'HOP HOP',
-      'nie słucham',
-      'zanaz',
-      'ROSYJSKI PRZELOT',
-      'mmhmm',
-      'załóżcie garnitury'
-    ];
-    let revealPreview = false;
-    let countdownExpired = false;
+    const video = document.getElementById('releaseVideo');
+    const toggle = document.getElementById('videoToggle');
 
-    function applyTrackState() {
-      const shouldReveal = revealPreview || countdownExpired;
-      const shouldEnableButtons = shouldReveal;
-
-      trackButtons.forEach((button) => {
-        if (button.classList.contains('play-toggle-5')) {
-          button.disabled = false;
-          return;
-        }
-        button.disabled = !shouldEnableButtons;
-      });
-
-      trackTitles.forEach((titleEl, index) => {
-        const nextTitle = shouldReveal ? (finalTitles[index] || normalTitles[index]) : normalTitles[index];
-        titleEl.textContent = nextTitle;
-      });
-
-      timeEl.textContent = shouldReveal ? 'OUT NOW' : currentCountdownText();
-    }
-
-    function currentCountdownText() {
-      const now = new Date();
-      const diff = targetDate - now;
-
-      if (diff <= 0) {
-        countdownExpired = true;
-        return 'OUT NOW';
-      }
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-
-      return `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    }
-
-    function updateCountdown() {
-      const now = new Date();
-      const diff = targetDate - now;
-
-      if (diff <= 0) {
-        countdownExpired = true;
-        clearInterval(countdownInterval);
-      }
-
-      applyTrackState();
-    }
-
-    updateCountdown();
-    const countdownInterval = setInterval(updateCountdown, 1000);
-
-    const track3Button = document.querySelector('.track-button.play-toggle-3');
-    const track5Button = document.querySelector('.track-button.play-toggle-5');
-    const track6Button = document.querySelector('.track-button.play-toggle');
-    const audio = new Audio(track5Button ? track5Button.dataset.src : (track6Button ? track6Button.dataset.src : ''));
-    audio.preload = 'auto';
-
-    if (revealButton) {
-      const setRevealState = (isActive) => {
-        revealPreview = isActive;
-        revealButton.classList.toggle('is-active', isActive);
-        applyTrackState();
+    if (video && toggle) {
+      const syncButton = () => {
+        const isPaused = video.paused;
+        toggle.classList.toggle('is-paused', isPaused);
+        toggle.classList.toggle('is-playing', !isPaused);
+        toggle.setAttribute('aria-label', isPaused ? 'pause video' : 'play video');
       };
 
-      revealButton.addEventListener('pointerdown', () => setRevealState(true));
-      revealButton.addEventListener('pointerup', () => setRevealState(false));
-      revealButton.addEventListener('pointerleave', () => setRevealState(false));
-      revealButton.addEventListener('pointercancel', () => setRevealState(false));
-      revealButton.addEventListener('touchstart', (event) => {
-        event.preventDefault();
-        setRevealState(true);
-      }, { passive: false });
-      revealButton.addEventListener('touchend', () => setRevealState(false));
-      revealButton.addEventListener('touchcancel', () => setRevealState(false));
-    }
+      video.addEventListener('play', syncButton);
+      video.addEventListener('pause', syncButton);
+      video.addEventListener('ended', () => {
+        video.pause();
+        video.currentTime = 0;
+        syncButton();
+      });
 
-    function resetPlayStates() {
-      [track3Button, track5Button, track6Button].forEach(button => {
-        if (button) {
-          button.classList.remove('playing');
-          button.textContent = '▶';
+      toggle.addEventListener('click', async () => {
+        try {
+          if (video.paused) {
+            video.currentTime = 0;
+            await video.play();
+          } else {
+            video.pause();
+          }
+        } catch (error) {
+          console.warn('Video play failed:', error);
         }
       });
+
+      video.muted = false;
+      video.volume = 1;
+      video.autoplay = false;
+      syncButton();
     }
-
-    function setAudioSource(srcButton) {
-      if (!srcButton) return;
-      audio.src = srcButton.dataset.src;
-    }
-
-    function toggleSnippet(button) {
-      if (!button || button.disabled) return;
-      const isPlaying = button.classList.contains('playing');
-      if (isPlaying) {
-        audio.pause();
-        audio.currentTime = 0;
-        resetPlayStates();
-        return;
-      }
-
-      setAudioSource(button);
-      resetPlayStates();
-      button.classList.add('playing');
-      button.textContent = '❚❚';
-      audio.play().catch(() => {
-        resetPlayStates();
-      });
-    }
-
-    audio.addEventListener('ended', function () {
-      resetPlayStates();
-    });
-
-    audio.addEventListener('pause', function () {
-      if (!audio.currentTime || audio.currentTime === audio.duration) {
-        resetPlayStates();
-      }
-    });
-
-    document.querySelectorAll('.track-button').forEach(button => {
-      button.addEventListener('click', function () {
-        toggleSnippet(button);
-      });
-      button.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          toggleSnippet(button);
-        }
-      });
-    });
-
-    document.addEventListener('contextmenu', function (event) {
-      event.preventDefault();
-    });
-
-    document.addEventListener('selectstart', function (event) {
-      event.preventDefault();
-    });
-
-    document.addEventListener('dragstart', function (event) {
-      event.preventDefault();
-    });
-
-    document.addEventListener('keydown', function (event) {
-      const blockedKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Space'];
-      if (blockedKeys.includes(event.key)) {
-        event.preventDefault();
-      }
-    });
-
-    document.addEventListener('wheel', function (event) {
-      event.preventDefault();
-    }, { passive: false });
-
-    document.addEventListener('touchmove', function (event) {
-      event.preventDefault();
-    }, { passive: false });
   </script>
 </body>
 </html>
