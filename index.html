@@ -6,7 +6,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
-  <title>DRUGSTORY OPENER OUT NOW</title>
+  <title>DRUGSTORY</title>
   <style>
     :root {
       color-scheme: dark;
@@ -28,11 +28,9 @@
       background: #030308;
       color: var(--text);
       font-family: 'Inter', sans-serif;
-      overflow: hidden;
     }
 
     body {
-      position: relative;
       min-height: 100vh;
       background: #030308;
       text-rendering: optimizeLegibility;
@@ -42,175 +40,423 @@
       cursor: default;
     }
 
-    .background-video {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(0.95) contrast(1.08);
-      background: #000;
-      z-index: 0;
-    }
-
-    .background-video::-webkit-media-controls {
-      display: none !important;
-    }
-
     .hero {
       position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       min-height: 100vh;
-      padding: 28px 32px 40px;
-      text-transform: uppercase;
-    }
-
-    .video-shell {
-      position: relative;
-      width: min(54vw, 720px);
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(0, 0, 0, 0.18);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+      background: #030308;
+      padding: 24px;
+      overflow: hidden;
     }
 
-    .video-shell video {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      background: #000;
-    }
-
-    .video-shell video::-webkit-media-controls {
-      display: none !important;
-    }
-
-    .video-shell video::-webkit-media-controls-panel {
-      display: none !important;
-    }
-
-    .video-shell video::-webkit-media-controls-enclosure {
-      display: none !important;
-    }
-
-    .video-shell video::-webkit-media-controls-start-playback-button {
-      display: none !important;
-    }
-
-    .video-shell .toggle {
-      position: absolute;
-      inset: 50% auto auto 50%;
-      transform: translate(-50%, -50%);
-      width: 76px;
-      height: 76px;
-      appearance: none;
-      border: none;
-      background: transparent;
-      color: rgba(255, 255, 255, 0.95);
-      cursor: pointer;
-      padding: 0;
-      display: grid;
-      place-items: center;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-      opacity: 0.94;
-    }
-
-    .video-shell .toggle:hover,
-    .video-shell .toggle:focus-visible {
-      opacity: 1;
-      outline: none;
-    }
-
-    .video-shell .toggle:active {
-      transform: translate(-50%, -50%) scale(0.96);
-    }
-
-    .video-shell .toggle::before {
+    .hero::before,
+    .hero::after {
       content: "";
-      display: block;
-      width: 18px;
-      height: 32px;
-      border: none;
-      margin-left: 0;
-      background: linear-gradient(to right, rgba(255,255,255,0.95) 0 33%, rgba(255,255,255,0.95) 33% 66%, rgba(255,255,255,0.95) 66% 100%);
-      border-radius: 2px;
-    }
-
-    .video-shell .toggle.is-playing {
-      opacity: 0;
+      position: absolute;
+      inset: 0;
       pointer-events: none;
+      opacity: 0;
     }
 
-    .video-shell .toggle.is-paused::before {
-      width: 0;
-      height: 0;
-      border-top: 18px solid transparent;
-      border-bottom: 18px solid transparent;
-      border-left: 28px solid rgba(255, 255, 255, 0.95);
-      margin-left: 8px;
-      background: transparent;
-      border-radius: 0;
+    .hero img {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: min(52vw, 360px);
+      height: auto;
+      max-width: 100%;
+      filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18));
+      animation: glitch 0.9s infinite steps(1, end);
+      transform-origin: center center;
+      isolation: isolate;
+      cursor: pointer;
+    }
+
+    .hero img.is-chaos {
+      animation: chaos 0.12s infinite steps(1, end);
+      filter: drop-shadow(0 0 32px rgba(255, 0, 60, 0.9)) contrast(1.9) saturate(2.8);
+    }
+
+    .hero img.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: none;
+    }
+
+    .hero img::before,
+    .hero img::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    @keyframes glitch {
+      0%, 6%, 12%, 18%, 24%, 30%, 36%, 42%, 48%, 54%, 60%, 66%, 72%, 100% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.05) saturate(1.1);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      7% {
+        filter: drop-shadow(0 0 28px rgba(255, 0, 55, 0.85)) contrast(1.7) saturate(2.1);
+        transform: translate(-18px, 8px) scale(1.42) skewX(-5deg);
+        opacity: 0.82;
+      }
+      8% {
+        filter: drop-shadow(0 0 22px rgba(255, 255, 255, 0.34)) contrast(1.22) saturate(1.4);
+        transform: translate(12px, -8px) scale(1.18) skewX(4deg);
+        opacity: 1;
+      }
+      9% {
+        filter: drop-shadow(0 0 36px rgba(255, 0, 35, 0.92)) contrast(2.2) saturate(3.1);
+        transform: translate(-28px, 18px) scale(1.62) skewX(-8deg);
+        opacity: 0.68;
+      }
+      10% {
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2)) contrast(1.12) saturate(1.28);
+        transform: translate(16px, -14px) scale(1.2) skewX(5deg);
+        opacity: 1;
+      }
+      11% {
+        filter: drop-shadow(0 0 36px rgba(255, 30, 80, 0.92)) contrast(2.2) saturate(3.2);
+        transform: translate(-24px, 12px) scale(1.52) skewX(-6deg);
+        opacity: 0.76;
+      }
+      12% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.06) saturate(1.12);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      13% {
+        filter: drop-shadow(0 0 32px rgba(255, 0, 80, 0.8)) contrast(1.9) saturate(2.5);
+        transform: translate(20px, -18px) scale(1.28) skewX(7deg);
+        opacity: 0.8;
+      }
+      14% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.05) saturate(1.1);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      15% {
+        filter: drop-shadow(0 0 36px rgba(255, 0, 50, 0.95)) contrast(2.25) saturate(3.3);
+        transform: translate(-22px, 20px) scale(1.58) skewX(-7deg);
+        opacity: 0.7;
+      }
+      16% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.22)) contrast(1.12) saturate(1.3);
+        transform: translate(10px, -6px) scale(1.1) skewX(3deg);
+        opacity: 1;
+      }
+      17% {
+        filter: drop-shadow(0 0 32px rgba(255, 20, 70, 0.9)) contrast(1.95) saturate(2.7);
+        transform: translate(-30px, 8px) scale(1.64) skewX(-8deg);
+        opacity: 0.66;
+      }
+      18% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.05) saturate(1.1);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      19% {
+        filter: drop-shadow(0 0 30px rgba(255, 120, 30, 0.75)) contrast(1.6) saturate(2.1);
+        transform: translate(18px, -16px) scale(1.24) skewX(5deg);
+        opacity: 0.84;
+      }
+      20% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.06) saturate(1.1);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      21% {
+        filter: drop-shadow(0 0 30px rgba(255, 0, 70, 0.8)) contrast(1.9) saturate(2.6);
+        transform: translate(-18px, 10px) scale(1.38) skewX(-6deg);
+        opacity: 0.74;
+      }
+      22% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.2)) contrast(1.12) saturate(1.25);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      23% {
+        filter: drop-shadow(0 0 34px rgba(255, 0, 50, 0.92)) contrast(2.1) saturate(3.0);
+        transform: translate(-14px, 18px) scale(1.42) skewX(-6deg);
+        opacity: 0.7;
+      }
+      24% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.05) saturate(1.1);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      25% {
+        filter: drop-shadow(0 0 32px rgba(255, 18, 65, 0.9)) contrast(2.0) saturate(2.8);
+        transform: translate(-12px, 7px) scale(1.32) skewX(-5deg);
+        opacity: 0.75;
+      }
+      26% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.22)) contrast(1.12) saturate(1.26);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      27% {
+        filter: drop-shadow(0 0 30px rgba(255, 0, 70, 0.8)) contrast(1.8) saturate(2.5);
+        transform: translate(-26px, 12px) scale(1.5) skewX(-7deg);
+        opacity: 0.68;
+      }
+      28% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.04) saturate(1.08);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      29% {
+        filter: drop-shadow(0 0 34px rgba(255, 10, 55, 0.92)) contrast(2.2) saturate(3.1);
+        transform: translate(20px, -12px) scale(1.3) skewX(6deg);
+        opacity: 0.76;
+      }
+      30% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.08) saturate(1.12);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      31% {
+        filter: drop-shadow(0 0 32px rgba(255, 0, 70, 0.9)) contrast(2.05) saturate(2.9);
+        transform: translate(-20px, 16px) scale(1.42) skewX(-6deg);
+        opacity: 0.7;
+      }
+      32% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.04) saturate(1.1);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      33% {
+        filter: drop-shadow(0 0 34px rgba(255, 25, 80, 0.9)) contrast(2.15) saturate(3.0);
+        transform: translate(-14px, 9px) scale(1.28) skewX(-5deg);
+        opacity: 0.8;
+      }
+      34% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.06) saturate(1.12);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      35% {
+        filter: drop-shadow(0 0 30px rgba(255, 0, 50, 0.92)) contrast(2.0) saturate(2.8);
+        transform: translate(-18px, 12px) scale(1.38) skewX(-6deg);
+        opacity: 0.72;
+      }
+      36% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.05) saturate(1.1);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      37% {
+        filter: drop-shadow(0 0 34px rgba(255, 30, 85, 0.9)) contrast(2.2) saturate(3.1);
+        transform: translate(12px, -10px) scale(1.18) skewX(5deg);
+        opacity: 0.82;
+      }
+      38% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.08) saturate(1.18);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      39% {
+        filter: drop-shadow(0 0 32px rgba(255, 15, 60, 0.92)) contrast(2.05) saturate(2.9);
+        transform: translate(-12px, 14px) scale(1.34) skewX(-5deg);
+        opacity: 0.73;
+      }
+      40% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.2)) contrast(1.08) saturate(1.18);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      41% {
+        filter: drop-shadow(0 0 32px rgba(255, 40, 90, 0.9)) contrast(2.1) saturate(2.9);
+        transform: translate(-16px, 10px) scale(1.26) skewX(-5deg);
+        opacity: 0.78;
+      }
+      42% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.04) saturate(1.1);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      43% {
+        filter: drop-shadow(0 0 30px rgba(255, 18, 65, 0.9)) contrast(1.9) saturate(2.7);
+        transform: translate(-22px, 18px) scale(1.44) skewX(-7deg);
+        opacity: 0.7;
+      }
+      44% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.05) saturate(1.1);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      45% {
+        filter: drop-shadow(0 0 34px rgba(255, 15, 60, 0.95)) contrast(2.2) saturate(3.1);
+        transform: translate(14px, -12px) scale(1.2) skewX(5deg);
+        opacity: 0.82;
+      }
+      46% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.08) saturate(1.18);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      47% {
+        filter: drop-shadow(0 0 34px rgba(255, 0, 60, 0.92)) contrast(2.2) saturate(3.0);
+        transform: translate(-18px, 10px) scale(1.38) skewX(-6deg);
+        opacity: 0.68;
+      }
+      48% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.04) saturate(1.08);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      49% {
+        filter: drop-shadow(0 0 30px rgba(255, 20, 65, 0.9)) contrast(1.9) saturate(2.7);
+        transform: translate(20px, -14px) scale(1.26) skewX(6deg);
+        opacity: 0.76;
+      }
+      50% {
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.04) saturate(1.08);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes chaos {
+      0% {
+        transform: translate(0, 0) scale(1) rotate(0deg) skewX(0deg);
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.05) saturate(1.1);
+      }
+      5% {
+        transform: translate(-32px, 12px) scale(1.9) rotate(-8deg) skewX(-12deg);
+        filter: drop-shadow(0 0 30px rgba(255, 0, 60, 0.9)) contrast(2.2) saturate(3.2);
+      }
+      10% {
+        transform: translate(28px, -22px) scale(1.7) rotate(10deg) skewX(12deg);
+        filter: drop-shadow(0 0 40px rgba(255, 30, 80, 0.9)) contrast(2.5) saturate(3.4);
+      }
+      15% {
+        transform: translate(-26px, 20px) scale(2.1) rotate(-12deg) skewX(-14deg);
+        filter: drop-shadow(0 0 36px rgba(255, 40, 80, 0.95)) contrast(2.7) saturate(3.6);
+      }
+      20% {
+        transform: translate(30px, -16px) scale(1.4) rotate(6deg) skewX(10deg);
+        filter: drop-shadow(0 0 30px rgba(255, 0, 70, 0.9)) contrast(2.0) saturate(2.8);
+      }
+      25% {
+        transform: translate(-22px, -30px) scale(1.95) rotate(-10deg) skewX(-9deg);
+        filter: drop-shadow(0 0 38px rgba(255, 0, 40, 0.9)) contrast(2.5) saturate(3.5);
+      }
+      30% {
+        transform: translate(24px, 18px) scale(1.8) rotate(14deg) skewX(8deg);
+        filter: drop-shadow(0 0 28px rgba(255, 120, 20, 0.8)) contrast(2.2) saturate(3.1);
+      }
+      35% {
+        transform: translate(-18px, 24px) scale(2.15) rotate(-16deg) skewX(-11deg);
+        filter: drop-shadow(0 0 40px rgba(255, 20, 70, 0.95)) contrast(2.9) saturate(3.8);
+      }
+      40% {
+        transform: translate(32px, -10px) scale(1.65) rotate(9deg) skewX(13deg);
+        filter: drop-shadow(0 0 28px rgba(255, 0, 70, 0.9)) contrast(2.3) saturate(3.3);
+      }
+      45% {
+        transform: translate(-30px, -16px) scale(2.05) rotate(-12deg) skewX(-13deg);
+        filter: drop-shadow(0 0 42px rgba(255, 0, 60, 0.95)) contrast(2.8) saturate(3.7);
+      }
+      50% {
+        transform: translate(26px, 20px) scale(1.72) rotate(12deg) skewX(10deg);
+        filter: drop-shadow(0 0 30px rgba(255, 220, 60, 0.7)) contrast(2.2) saturate(3.2);
+      }
+      55% {
+        transform: translate(-20px, 14px) scale(2.2) rotate(-15deg) skewX(-12deg);
+        filter: drop-shadow(0 0 38px rgba(255, 0, 40, 0.9)) contrast(2.8) saturate(3.8);
+      }
+      60% {
+        transform: translate(18px, -20px) scale(1.58) rotate(9deg) skewX(10deg);
+        filter: drop-shadow(0 0 26px rgba(255, 255, 255, 0.22)) contrast(1.8) saturate(2.3);
+      }
+      65% {
+        transform: translate(-28px, 10px) scale(1.9) rotate(-11deg) skewX(-10deg);
+        filter: drop-shadow(0 0 34px rgba(255, 0, 70, 0.88)) contrast(2.4) saturate(3.2);
+      }
+      70% {
+        transform: translate(22px, 16px) scale(1.76) rotate(14deg) skewX(9deg);
+        filter: drop-shadow(0 0 30px rgba(255, 0, 50, 0.85)) contrast(2.2) saturate(3.1);
+      }
+      75% {
+        transform: translate(-18px, -12px) scale(2.05) rotate(-9deg) skewX(-11deg);
+        filter: drop-shadow(0 0 40px rgba(255, 0, 60, 0.95)) contrast(2.7) saturate(3.6);
+      }
+      80% {
+        transform: translate(14px, 6px) scale(1.5) rotate(8deg) skewX(6deg);
+        filter: drop-shadow(0 0 22px rgba(255, 255, 255, 0.22)) contrast(1.6) saturate(1.9);
+      }
+      85% {
+        transform: translate(-12px, 8px) scale(1.7) rotate(-8deg) skewX(-8deg);
+        filter: drop-shadow(0 0 28px rgba(255, 0, 70, 0.82)) contrast(2.1) saturate(3.0);
+      }
+      90% {
+        transform: translate(8px, -6px) scale(1.3) rotate(5deg) skewX(4deg);
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.2) saturate(1.4);
+      }
+      100% {
+        transform: translate(0, 0) scale(1) rotate(0deg) skewX(0deg);
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18)) contrast(1.05) saturate(1.1);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero img {
+        width: min(72vw, 300px);
+      }
+
     }
   </style>
 </head>
 <body>
-  <video class="background-video" autoplay muted loop playsinline aria-hidden="true">
-    <source src="https://files.catbox.moe/5l8h2a.mp4" type="video/mp4" />
-  </video>
-
   <main class="hero" aria-label="drugstory opener release">
-    <div class="video-shell">
-      <video id="releaseVideo" playsinline preload="auto">
-        <source src="https://files.catbox.moe/iw6t7g.mp4" type="video/mp4" />
-      </video>
-      <button class="toggle" id="videoToggle" type="button" aria-label="play or pause video"></button>
-    </div>
+    <img id="flower" src="https://files.catbox.moe/fe502p.png" alt="kwiatuszek" tabindex="0" role="button" aria-label="kliknij, aby odtworzyć dźwięk i uruchomić efekt" />
   </main>
 
   <script>
-    const video = document.getElementById('releaseVideo');
-    const toggle = document.getElementById('videoToggle');
+    const flower = document.getElementById('flower');
+    const sound = new Audio('https://files.catbox.moe/4pl3di.mp3');
+    sound.preload = 'auto';
+    sound.volume = 1;
 
-    if (video && toggle) {
-      const syncButton = () => {
-        const isPaused = video.paused;
-        toggle.classList.toggle('is-paused', isPaused);
-        toggle.classList.toggle('is-playing', !isPaused);
-        toggle.setAttribute('aria-label', isPaused ? 'pause video' : 'play video');
-      };
+    let soundPlayed = false;
 
-      video.addEventListener('play', syncButton);
-      video.addEventListener('pause', syncButton);
-      video.addEventListener('ended', () => {
-        video.pause();
-        video.currentTime = 0;
-        syncButton();
+    const triggerChaos = () => {
+      if (!flower) return;
+      flower.classList.remove('is-chaos');
+      void flower.offsetWidth;
+      flower.classList.add('is-chaos');
+    };
+
+    if (flower) {
+      flower.addEventListener('click', () => {
+        if (soundPlayed) return;
+        soundPlayed = true;
+        sound.currentTime = 0;
+        sound.play().catch(() => {});
+
+        setTimeout(() => {
+          triggerChaos();
+        }, 8000);
+
+        setTimeout(() => {
+          flower.classList.add('is-hidden');
+        }, 11000);
+
       });
 
-      toggle.addEventListener('click', async () => {
-        try {
-          if (video.paused) {
-            video.currentTime = 0;
-            await video.play();
-          } else {
-            video.pause();
-          }
-        } catch (error) {
-          console.warn('Video play failed:', error);
+      flower.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          flower.click();
         }
       });
-
-      video.muted = false;
-      video.volume = 1;
-      video.autoplay = false;
-      syncButton();
     }
   </script>
 </body>
